@@ -56,36 +56,24 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  //WICHTIG - ANPASSEN, Telefonnummer &&
+  //WICHTIG
   {
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "Name, Vorname",
   },
   {
-    id: "calories",
+    id: "adresse",
     numeric: true,
     disablePadding: false,
-    label: "Calories",
+    label: "Adresse",
   },
   {
-    id: "fat",
+    id: "telefon",
     numeric: true,
     disablePadding: false,
-    label: "Fat (g)",
-  },
-  {
-    id: "carbs",
-    numeric: true,
-    disablePadding: false,
-    label: "Carbs (g)",
-  },
-  {
-    id: "protein",
-    numeric: true,
-    disablePadding: false,
-    label: "Protein (g)",
+    label: "Telefonnummer",
   },
 ];
 
@@ -187,15 +175,15 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Eingetragene Personen
         </Typography>
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="Löschen">
           <IconButton
             onClick={() => {
-              console.log("delete all selected", selected);
+              // console.log("delete all selected", selected);
               deleteItems(selected);
             }}
           >
@@ -219,7 +207,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable({ rows, deleteItems }) {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const dense = false;
@@ -334,10 +322,8 @@ export default function EnhancedTable({ rows, deleteItems }) {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
+                      <TableCell align="right">{row.adresse}</TableCell>
+                      <TableCell align="right">{row.telefon}</TableCell>
                     </TableRow>
                   );
                 })}

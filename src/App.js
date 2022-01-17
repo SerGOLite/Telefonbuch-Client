@@ -1,9 +1,7 @@
-import logo from "./logo.svg";
 import { useState } from "react";
 import "./App.css";
 import Table from "./components/table";
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import IconButton from "@mui/material/IconButton";
@@ -12,6 +10,9 @@ import MenuIcon from "@mui/icons-material/Menu";
 import { styled, alpha } from "@mui/material/styles";
 import InputBase from "@mui/material/InputBase";
 import SearchIcon from "@mui/icons-material/Search";
+import "./components/table";
+import AddDataForm from "./components/addForm";
+import Grid from "@mui/material/Grid";
 
 //* ----- UNWICHTIG -----
 const Search = styled("div")(({ theme }) => ({
@@ -58,37 +59,56 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 
 //* ----- UNWICHTIG Ende -----
 
-function createData(name, calories, fat, carbs, protein) {
+function createData(name, adresse, telefon) {
   return {
     name,
-    calories,
-    fat,
-    carbs,
-    protein,
+    adresse,
+    telefon,
   };
 }
 
 function App() {
   // WICHTIG
   const [rows, setRows] = useState([
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Donut", 452, 25.0, 51, 4.9),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-    createData("Honeycomb", 408, 3.2, 87, 6.5),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Jelly Bean", 375, 0.0, 94, 0.0),
-    createData("KitKat", 518, 26.0, 65, 7.0),
-    createData("Lollipop", 392, 0.2, 98, 0.0),
-    createData("Marshmallow", 318, 0, 81, 2.0),
-    createData("Nougat", 360, 19.0, 9, 37.0),
-    createData("Oreo", 437, 18.0, 63, 4.0),
+    createData("Saturn, Anna", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Cobalt, Olaf", "12346 Berlin | Ruhestr. 2", "123456789"),
+    createData(
+      "Merkur, Frank",
+      "12346 Berlin | Altenweg Straße 3",
+      "123456789"
+    ),
+    createData("Venus, Alex", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Erde, Clara", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Mars, Ilon", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Jupiter, Gloria", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Uranus, Konny", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Neptun, Miriam", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Graphen, Erik", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Nickel, Rebeca", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Chrom, Helena", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Iod, Nora", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Brom, Alisa", "12346 Berlin | Anstr. 1", "123456789"),
+    createData("Silicium, Dora", "12346 Berlin | Anstr. 1", "123456789"),
   ]);
 
+  // Neu Datesatz hinzufügen
+  const addPerson = (name, adresse, telefon) => {
+    const newPerson = {
+      name: name,
+      adresse: adresse,
+      telefon: telefon,
+    };
+    rows.push(newPerson);
+    console.log(rows, newPerson);
+    setRows(rows);
+  };
+  //
+  // Datesätze löschen
   const deleteItems = (items) => {
     //WICHTIG
-    console.log("hallo von deleteItems", items);
+
+    const updateData = rows.filter((row) => !items.includes(row.name));
+    setRows(updateData);
   };
 
   const sucheNachBegriff = (begriff) => {
@@ -131,6 +151,11 @@ function App() {
           </Toolbar>
         </AppBar>
       </div>
+      <Grid>
+        {/* <h3> Gesamtanzahl: {rows.length}</h3>
+        <h3> Neu Eintrag hinzufügen:</h3> */}
+        <AddDataForm addPerson={addPerson} />
+      </Grid>
       <div>
         <Table rows={rows} deleteItems={deleteItems} />
       </div>
