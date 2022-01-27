@@ -70,7 +70,7 @@ const headCells = [
     label: "Adresse",
   },
   {
-    id: "telefon",
+    id: "telefonnummer",
     numeric: true,
     disablePadding: false,
     label: "Telefonnummer",
@@ -323,7 +323,7 @@ export default function EnhancedTable({ rows, deleteItems }) {
                         {row.name}
                       </TableCell>
                       <TableCell align="right">{row.adresse}</TableCell>
-                      <TableCell align="right">{row.telefon}</TableCell>
+                      <TableCell align="right">{row.telefonnummer}</TableCell>
                     </TableRow>
                   );
                 })}
