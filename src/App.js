@@ -79,7 +79,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 // -------------ENDE--------
 
-// Info Display Bediengung (Badge)
+// Info Display Bediengung (Badge) fuktioniert auch ohne, deswegen auskommentiert
 // function notifikationslabel(count) {
 //   if (count === 0) {
 //     return "no notification";
@@ -101,7 +101,6 @@ function createData(name, adresse, telefonnummer) {
 }
 
 function App() {
-  // WICHTIG
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
 
@@ -115,21 +114,24 @@ function App() {
       //     telefonnummer: "123456",
       //   },
       // ];
-      const result = (
-        await fetch("http://localhost:8082/api/person/", {
-          mode: "no-cors",
-          credentials: "include",
-        })
-      ).json();
-      const people = result.map((x) =>
-        createData(x.name, x.adresse, x.telefonnummer)
-      );
-      console.log(result);
-      setRows(people);
-      setFilteredRows(people);
+      fetch("http://localhost:8082/api/person/", {
+        // mode: "no-cors",
+        method: "GET",
+        // credentials: "include",
+      }).then((res) => {
+        console.log(rows);
+        setRows(res.json());
+      });
+      // const people = result.map((x) =>
+      //   createData(x.name, x.adresse, x.telefonnummer)
+      // );
+      // const ris = result.json();
+      // console.log(result, ris);
+      // setRows(people);
+      // setFilteredRows(people);
     }
     getData();
-  }, []);
+  }, [rows]);
 
   // React.useEffect(() => {
   //   const people = [
