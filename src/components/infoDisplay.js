@@ -11,7 +11,7 @@ import Typography from "@mui/material/Typography";
 //   maxHeight: '100%',
 // });
 
-export default function InfoDisplay({ filteredRows }) {
+export default function InfoDisplay({ filteredRows, filterApplied }) {
   console.log(filteredRows);
   //   return (
   //     <div>
@@ -38,7 +38,7 @@ export default function InfoDisplay({ filteredRows }) {
                 Gesammt:
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Suchergebniss: {filteredRows.length}
+                Suchergebniss: {filterApplied ? filteredRows.length : 0}
               </Typography>
             </Grid>
             <Grid item></Grid>

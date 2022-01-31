@@ -19,7 +19,7 @@ export default function AddDataForm({ addPerson }) {
   const [telefonnummer, setTelefonnummer] = useState("");
 
   const handleSubmit = (e) => {
-    e.preventDefault(); //Frage: Wofür hier? Um das leeres Eintrag zu verhindern Analog zu false in HTML????
+    e.preventDefault(); //TODO: Nachlesen, wofür hier? Um das leeres Eintrag zu verhindern Analog zu false in HTML????
     console.log("handleSubmit", userInput, name, adresse, telefonnummer);
     document.getElementById("nameField").value = "";
     document.getElementById("adresseField").value = "";
@@ -37,7 +37,7 @@ export default function AddDataForm({ addPerson }) {
       <Grid
         container
         spacing={1}
-        direction="column"
+        direction="row"
         alignItems="center"
         justifyContent="center"
       >
@@ -84,7 +84,7 @@ export default function AddDataForm({ addPerson }) {
           <AddIcCallIcon sx={{ color: "action.active", mr: 1, my: 0.5 }} />
           <TextField
             onChange={(e) => setTelefonnummer(e.target.value)}
-            label="telefonnummer"
+            label="Telefonnummer"
             variant="outlined"
             placeholder="Eingabe..."
             margin="dense"
@@ -92,14 +92,23 @@ export default function AddDataForm({ addPerson }) {
             // value=""
           />
         </Grid>
+        <Divider />
+        {/* ---------- Grid mit dem "Speicher" Button */}
 
         <Grid
           container
           direction="row"
           justifyContent="center"
           alignItems="center"
+          // spacing={0}
         >
-          <Grid container spacing={2}>
+          <Grid
+            container
+            direction="row"
+            justifyContent="center"
+            alignItems="center"
+            // spacing={0}
+          >
             <Button
               startIcon={<SaveIcon />}
               size="large"

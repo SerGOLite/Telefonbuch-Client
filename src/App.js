@@ -103,36 +103,55 @@ function createData(name, adresse, telefonnummer) {
 function App() {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
+  const [filterApplied, setFilterApplied] = useState(false);
 
+  //-- Hier werden die Daten von Außen geholt
   React.useEffect(() => {
     async function getData() {
-      // const result = [
-      //   {
-      //     id: 0,
-      //     name: "test user",
-      //     adresse: "demo street",
-      //     telefonnummer: "123456",
-      //   },
-      // ];
+      // ---------Version mit Dummy
+
+      //       const result = [
+      //         {
+      //           id: 0,
+      //           name: "test user",
+      //           adresse: "demo street",
+      //           telefonnummer: "123456",
+      //         },
+      //       ];
+      //       const people = result.map((x) =>
+      //       createData(x.name, x.adresse, x.telefonnummer)
+      //     );
+
+      //     setRows(people);
+      //     setFilteredRows(people);
+      //   }
+      //   getData();
+      // }, [rows]);
+
       fetch("http://localhost:8082/api/person/", {
-        // mode: "no-cors",
+        //     // mode: "no-cors",
         method: "GET",
-        // credentials: "include",
+        //     // credentials: "include",
       }).then((res) => {
-        console.log(rows);
-        setRows(res.json());
+        console.log("1", res);
+        // setRows(res.json());
+        res.json().then((data) => {
+          console.log("data", data, null, 2);
+          setRows(data);
+          setFilteredRows(data);
+        });
       });
-      // const people = result.map((x) =>
-      //   createData(x.name, x.adresse, x.telefonnummer)
-      // );
-      // const ris = result.json();
-      // console.log(result, ris);
-      // setRows(people);
-      // setFilteredRows(people);
+      //   // const ris = result.json();
+      //   // console.log(result, ris);
     }
     getData();
+  }, []);
+
+  React.useEffect(() => {
+    console.log("2", rows);
   }, [rows]);
 
+  // --- Variante mit Dummy Datesätzen
   // React.useEffect(() => {
   //   const people = [
   //     createData("Saturn, Anna", "12346 Berlin | Anstr. 1", "123456789"),
@@ -171,6 +190,7 @@ function App() {
   //   setRows(rows);
   // };
 
+  // Neu Datesatz hinzufügen
   const addPerson = (name, adresse, telefonnummer) => {
     if (rows.some((v) => v.name.toLowerCase() === name.toLowerCase())) {
       //TODO: Fehler ausgeben
@@ -209,11 +229,12 @@ function App() {
     setFilteredRows(updatedData);
   };
 
-  // Suchleiste optimirt für rücksetzung von der Tabelle nach dem suche leeren un zubereitet für die DB
+  // Suchleiste in Appbar. Optimirt für rücksetzung von der Tabelle nach dem leeren des Eingabefeld
   const sucheNachBegriff = (e) => {
     const value = e.target.value.toLowerCase();
     if (value === " ") {
       setFilteredRows(rows);
+      setFilterApplied(false);
       return;
     }
 
@@ -221,21 +242,11 @@ function App() {
       entry.name.toLowerCase().includes(value)
     );
     setFilteredRows(filteredRows);
+    setFilterApplied(true);
     console.log(rows, filteredRows);
   };
 
-  // ----funktionierende Suchleiste tabelle ohne zurücksetzung nach der leeren des Suchleiste
-  // const sucheNachBegriff = (e) => {
-  //   const value = e.target.value.toLowerCase();
-  //   console.log(value);
-  //   const filter = rows.filter((user) => {
-  //     return user.name.toLowerCase().includes(value);
-  //   });
-  //   console.log(filter);
-  //   setRows(filter);
-  // };
-
-  // ----------Popup Allert
+  // ----------Popup Allert (Closen nur durch Schließbutton)
   const [open, setOpen] = React.useState(false);
 
   const handleClickOpen = () => {
@@ -321,7 +332,7 @@ function App() {
             </Dialog>
             {/* ------ENDE POPUP ALLERT "NEU EINTRAG HINZUFÜGEN" in DialogFenster */}
 
-            {/* Badge als InfoDisplay */}
+            {/*------2x Badge als InfoDisplay am AppBar*/}
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <IconButton
                 size="large"
@@ -340,7 +351,7 @@ function App() {
                 color="inherit"
               >
                 <Badge
-                  badgeContent={filteredRows.length}
+                  badgeContent={filterApplied ? filteredRows.length : 0}
                   color="warning"
                   showZero
                 >
@@ -350,6 +361,7 @@ function App() {
             </Box>
             {/* Ende - Badge als InfoDisplay */}
 
+            {/* Suchleiste im AppBar*/}
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
@@ -365,14 +377,12 @@ function App() {
           </Toolbar>
         </AppBar>
       </div>
-      <Grid container>
-        <Grid>
-          {/* <h6> Gesamtanzahl: {rows.length}</h6>
-          <h6> Suchergebniss Anzahl: {filteredRows.length}</h6> */}
-        </Grid>
-      </Grid>
 
-      <InfoDisplay filteredRows={filteredRows} infoDisplay={{ test: 1 }} />
+      <InfoDisplay
+        filteredRows={filteredRows}
+        filterApplied={filterApplied}
+        infoDisplay={{ test: 1 }}
+      />
 
       <div>
         <Table rows={filteredRows} deleteItems={deleteItems} />
