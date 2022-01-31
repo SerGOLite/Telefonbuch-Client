@@ -1,15 +1,7 @@
 import * as React from "react";
-import { styled } from "@mui/material/styles";
 import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
-
-// const Img = styled('img')({
-//   margin: 'auto',
-//   display: 'block',
-//   maxWidth: '100%',
-//   maxHeight: '100%',
-// });
 
 export default function InfoDisplay({ filteredRows, filterApplied }) {
   console.log(filteredRows);
@@ -24,7 +16,7 @@ export default function InfoDisplay({ filteredRows, filterApplied }) {
   // }
 
   return (
-    <Paper sx={{ p: 1.5, margin: "auto", maxWidth: 200, flexGrow: 1 }}>
+    <Paper sx={{ p: 1.5, margin: "30px", maxWidth: 200, flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid item></Grid>
         <Grid item xs={12} sm container>

@@ -298,10 +298,11 @@ function App() {
               <DialogTitle id="alert-dialog-title">
                 <div style={{ display: "flex" }}>
                   <Typography
-                    variant="h6"
+                    variant="h4"
                     color="GrayText"
                     component="div"
-                    style={{ flexGrow: 1 }}
+                    style={{ flexGrow: 1, padding: "20px", fontSize: 26 }}
+                    textAlign="center"
                   >
                     {"Neu Eintrag hinzufügen"}
                   </Typography>
@@ -313,11 +314,24 @@ function App() {
                     <CloseIcon color="error" />
                   </IconButton>
                 </div>
+                <div style={{ display: "flex" }}>
+                  <Typography
+                    variant="h6"
+                    color="GrayText"
+                    component="div"
+                    style={{ flexGrow: 1, padding: "20px", fontSize: 14 }}
+                    textAlign="center"
+                  >
+                    {
+                      "Bitte Name, Nachnahme sowie Adresse und Telefonnummer hinzufügen."
+                    }
+                  </Typography>
+                </div>
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  Bitte Name, Nachnahme sowie Adresse und Telefonnummer
-                  hinzufügen.
+                  {/* Bitte Name, Nachnahme sowie Adresse und Telefonnummer
+                  hinzufügen. */}
                   <Grid>
                     <AddDataForm addPerson={addPerson} />
                   </Grid>

@@ -107,12 +107,22 @@ export default function AddDataForm({ addPerson }) {
             direction="row"
             justifyContent="center"
             alignItems="center"
+
             // spacing={0}
           >
             <Button
+              // style={{padding}}
               startIcon={<SaveIcon />}
               size="large"
-              style={{ fontSize: 14 }}
+              style={{
+                fontSize: 14,
+                height: 50,
+                padding: "0 90px",
+                margin: "25px",
+
+                // alignSelf: "stretch",
+                // borderRadius: 25,
+              }}
               onClick={(e) => handleSubmit(e)}
               // onClick={(e) => {handleSubmit(e); setOpen(false);}} Um nach dem Speichern zu schließen
               variant="contained"

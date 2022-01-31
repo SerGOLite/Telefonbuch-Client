@@ -21,6 +21,28 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { styled } from "@mui/material/styles";
+// import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+
+// const StyledTableCell = styled(TableCell)(({ theme }) => ({
+//   [`&.${tableCellClasses.head}`]: {
+//     backgroundColor: theme.palette.common.black,
+//     color: theme.palette.common.white,
+//   },
+//   [`&.${tableCellClasses.body}`]: {
+//     fontSize: 14,
+//   },
+// }));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 function descendingComparator(a, b, orderBy) {
   //UNWICHTIG
@@ -159,6 +181,8 @@ const EnhancedTableToolbar = (props) => {
         }),
       }}
     >
+      {/* Tabellen Überschrift mit bedingste (ternäre) Operator. Sobald die Datensätze werden markiert... 
+      gewählt > 0 ? "selected" : "Titel"*/}
       {numSelected > 0 ? (
         <Typography
           sx={{ flex: "1 1 100%" }}
@@ -166,7 +190,7 @@ const EnhancedTableToolbar = (props) => {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected} gewählt
         </Typography>
       ) : (
         <Typography
@@ -175,7 +199,7 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Eingetragene Personen
+          Verfügbare Einträge
         </Typography>
       )}
 
@@ -191,7 +215,7 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
+        <Tooltip title="Filtern">
           <IconButton>
             <FilterListIcon />
           </IconButton>
@@ -214,7 +238,7 @@ export default function EnhancedTable({ rows, deleteItems }) {
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
-    //UNWICHTIG
+    //
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -296,7 +320,7 @@ export default function EnhancedTable({ rows, deleteItems }) {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
+                    <StyledTableRow
                       hover
                       onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
@@ -324,7 +348,7 @@ export default function EnhancedTable({ rows, deleteItems }) {
                       </TableCell>
                       <TableCell align="right">{row.adresse}</TableCell>
                       <TableCell align="right">{row.telefonnummer}</TableCell>
-                    </TableRow>
+                    </StyledTableRow>
                   );
                 })}
               {emptyRows > 0 && (
