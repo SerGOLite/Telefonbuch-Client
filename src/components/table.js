@@ -21,6 +21,28 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
+import { styled } from "@mui/material/styles";
+// import TableCell, { tableCellClasses } from "@mui/material/TableCell";
+
+// const StyledTableCell = styled(TableCell)(({ theme }) => ({
+//   [`&.${tableCellClasses.head}`]: {
+//     backgroundColor: theme.palette.common.black,
+//     color: theme.palette.common.white,
+//   },
+//   [`&.${tableCellClasses.body}`]: {
+//     fontSize: 14,
+//   },
+// }));
+
+const StyledTableRow = styled(TableRow)(({ theme }) => ({
+  "&:nth-of-type(odd)": {
+    backgroundColor: theme.palette.action.hover,
+  },
+  // hide last border
+  "&:last-child td, &:last-child th": {
+    border: 0,
+  },
+}));
 
 function descendingComparator(a, b, orderBy) {
   //UNWICHTIG
@@ -56,36 +78,24 @@ function stableSort(array, comparator) {
 }
 
 const headCells = [
-  //WICHTIG - ANPASSEN, Telefonnummer &&
+  //WICHTIG
   {
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Dessert (100g serving)",
+    label: "Name, Vorname",
   },
   {
-    id: "calories",
+    id: "adresse",
     numeric: true,
     disablePadding: false,
-    label: "Calories",
+    label: "Adresse",
   },
   {
-    id: "fat",
+    id: "telefonnummer",
     numeric: true,
     disablePadding: false,
-    label: "Fat (g)",
-  },
-  {
-    id: "carbs",
-    numeric: true,
-    disablePadding: false,
-    label: "Carbs (g)",
-  },
-  {
-    id: "protein",
-    numeric: true,
-    disablePadding: false,
-    label: "Protein (g)",
+    label: "Telefonnummer",
   },
 ];
 
@@ -171,6 +181,8 @@ const EnhancedTableToolbar = (props) => {
         }),
       }}
     >
+      {/* Tabellen Überschrift mit bedingste (ternäre) Operator. Sobald die Datensätze werden markiert... 
+      gewählt > 0 ? "selected" : "Titel"*/}
       {numSelected > 0 ? (
         <Typography
           sx={{ flex: "1 1 100%" }}
@@ -178,7 +190,7 @@ const EnhancedTableToolbar = (props) => {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected} gewählt
         </Typography>
       ) : (
         <Typography
@@ -187,15 +199,15 @@ const EnhancedTableToolbar = (props) => {
           id="tableTitle"
           component="div"
         >
-          Nutrition
+          Verfügbare Einträge
         </Typography>
       )}
 
       {numSelected > 0 ? (
-        <Tooltip title="Delete">
+        <Tooltip title="Löschen">
           <IconButton
             onClick={() => {
-              console.log("delete all selected", selected);
+              // console.log("delete all selected", selected);
               deleteItems(selected);
             }}
           >
@@ -203,7 +215,7 @@ const EnhancedTableToolbar = (props) => {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
+        <Tooltip title="Filtern">
           <IconButton>
             <FilterListIcon />
           </IconButton>
@@ -219,14 +231,14 @@ EnhancedTableToolbar.propTypes = {
 
 export default function EnhancedTable({ rows, deleteItems }) {
   const [order, setOrder] = React.useState("asc");
-  const [orderBy, setOrderBy] = React.useState("calories");
+  const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
   const dense = false;
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
-    //UNWICHTIG
+    //
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
@@ -308,7 +320,7 @@ export default function EnhancedTable({ rows, deleteItems }) {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
-                    <TableRow
+                    <StyledTableRow
                       hover
                       onClick={(event) => handleClick(event, row.name)}
                       role="checkbox"
@@ -334,11 +346,9 @@ export default function EnhancedTable({ rows, deleteItems }) {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.calories}</TableCell>
-                      <TableCell align="right">{row.fat}</TableCell>
-                      <TableCell align="right">{row.carbs}</TableCell>
-                      <TableCell align="right">{row.protein}</TableCell>
-                    </TableRow>
+                      <TableCell align="right">{row.adresse}</TableCell>
+                      <TableCell align="right">{row.telefonnummer}</TableCell>
+                    </StyledTableRow>
                   );
                 })}
               {emptyRows > 0 && (
