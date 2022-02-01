@@ -198,7 +198,7 @@ function App() {
   // ---- Suchleiste in Appbar. Mit rücksetzung der Anzeige von Tabelle nach dem leeren des Suchfelds
   const sucheNachBegriff = (e) => {
     const value = e.target.value.toLowerCase();
-    if (value === " ") {
+    if (value === "") {
       setFilteredRows(rows);
       setFilterApplied(false);
       return;
@@ -248,16 +248,17 @@ function App() {
             >
               Telefonbuch
             </Typography>
-            {/* ------------- POPUP ALLERT "NEU EINTRAG HINZUFÜGEN" in DialogFenster*/}
+            {/* ------------- POPUP/ DIALOG Fenster "NEU EINTRAG HINZUFÜGEN" -------------*/}
+            {/* ---------ADD BUTTON */}
             <IconButton color="inherit" onClick={handleClickOpen}>
               <AddIcon />
             </IconButton>
-
+            {/* ---------Dialog/Popup Fenster */}
             <Dialog
               open={open}
               TransitionComponent={Transition}
               keepMounted
-              // onClose={handleClose} (Close durch cklick außerhalb Fenster)
+              // onClose={handleClose} (Close durch cklick außerhalb Fenster AUS)
               aria-labelledby="alert-dialog-title"
               aria-describedby="alert-dialog-description"
             >
@@ -313,7 +314,7 @@ function App() {
             </Dialog>
             {/* ------ENDE POPUP ALLERT "NEU EINTRAG HINZUFÜGEN" in DialogFenster */}
 
-            {/*------2x Badge als InfoDisplay am AppBar*/}
+            {/*-------------------------------2x Badge als InfoDisplay am AppBar*/}
             <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <IconButton
                 size="large"
@@ -331,6 +332,7 @@ function App() {
                 // aria-label={notifikationslabel(100)}
                 color="inherit"
               >
+                {/* Diese Badge zeigt null sobald die nicht gesucht wird */}
                 <Badge
                   badgeContent={filterApplied ? filteredRows.length : 0}
                   color="warning"
@@ -340,9 +342,9 @@ function App() {
                 </Badge>
               </IconButton>
             </Box>
-            {/* Ende - Badge als InfoDisplay */}
+            {/* -------------------------------Ende - Badge als InfoDisplay */}
 
-            {/* Suchleiste im AppBar*/}
+            {/* Suchleiste im AppBar */}
             <Search>
               <SearchIconWrapper>
                 <SearchIcon />
