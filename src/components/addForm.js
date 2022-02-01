@@ -53,7 +53,7 @@ export default function AddDataForm({ addPerson }) {
             label="Name, Vorname"
             variant="outlined"
             placeholder="Eingabe..."
-            margin="dense"
+            margin="normal"
             id="nameField"
             // value=""
           />
@@ -70,7 +70,7 @@ export default function AddDataForm({ addPerson }) {
             label="Adresse"
             variant="outlined"
             placeholder="Eingabe..."
-            margin="dense"
+            margin="normal"
             id="adresseField"
             // value=""
           />
@@ -87,7 +87,7 @@ export default function AddDataForm({ addPerson }) {
             label="Telefonnummer"
             variant="outlined"
             placeholder="Eingabe..."
-            margin="dense"
+            margin="normal"
             id="telefonnummerField"
             // value=""
           />

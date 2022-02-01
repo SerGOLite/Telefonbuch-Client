@@ -108,26 +108,6 @@ function App() {
   //-- Hier werden die Daten von Außen geholt
   React.useEffect(() => {
     async function getData() {
-      // ---------Version mit Dummy
-
-      //       const result = [
-      //         {
-      //           id: 0,
-      //           name: "test user",
-      //           adresse: "demo street",
-      //           telefonnummer: "123456",
-      //         },
-      //       ];
-      //       const people = result.map((x) =>
-      //       createData(x.name, x.adresse, x.telefonnummer)
-      //     );
-
-      //     setRows(people);
-      //     setFilteredRows(people);
-      //   }
-      //   getData();
-      // }, [rows]);
-
       fetch("http://localhost:8082/api/person/", {
         //     // mode: "no-cors",
         method: "GET",
@@ -151,47 +131,8 @@ function App() {
     console.log("2", rows);
   }, [rows]);
 
-  // --- Variante mit Dummy Datesätzen
-  // React.useEffect(() => {
-  //   const people = [
-  //     createData("Saturn, Anna", "12346 Berlin | Anstr. 1", "123456789"),
-  //     createData("Cobalt, Olaf", "12346 Berlin | Ruhestr. 2", "123456789"),
-  //     createData(
-  //       "Merkur, Frank",
-  //       "12346 Berlin | Altenweg Straße 3",
-  //       "123456789"
-  //     ),
-  //     createData("Venus, Alex", "12346 Aachen | Anstr. 1", "123456789"),
-  //     createData("Erde, Clara", "12346 Norden | Anstr. 1", "123456789"),
-  //     createData("Mars, Ilon", "12346 Köln | Anstr. 1", "123456789"),
-  //     createData("Jupiter, Gloria", "12346 Berlin | Anstr. 1", "123456789"),
-  //     createData("Uranus, Konny", "12346 Frankfurt | Anstr. 1", "123456789"),
-  //     createData("Neptun, Miriam", "12346 München | Anstr. 1", "123456789"),
-  //     createData("Graphen, Erik", "12346 Münster | Anstr. 1", "123456789"),
-  //     createData("Nickel, Rebeca", "12346 Dortmund | Anstr. 1", "123456789"),
-  //     createData("Chrom, Natalie", "12346 Kiel | Anstr. 1", "123456789"),
-  //     createData("Iod, Nora", "12346 Rostok | Anstr. 1", "123456789"),
-  //     createData("Brom, Alisa", "12346 Hanover | Anstr. 1", "123456789"),
-  //     createData("Silicium, Dora", "12346 Hann | Anstr. 1", "123456789"),
-  //   ];
-  //   setRows(people);
-  //   setFilteredRows(people);
-  // }, []);
-
-  // Neu Datesatz hinzufügen
-  // const addPerson = (name, adresse, telefon) => {
-  //   const newPerson = {
-  //     name: name,
-  //     adresse: adresse,
-  //     telefon: telefon,
-  //   };
-  //   rows.push(newPerson);
-  //   console.log(rows, newPerson);
-  //   setRows(rows);
-  // };
-
-  // Neu Datesatz hinzufügen
-  const addPerson = (name, adresse, telefonnummer) => {
+  // ---- Neu Datesatz hinzufügen
+  const addPerson = async (name, adresse, telefonnummer) => {
     if (rows.some((v) => v.name.toLowerCase() === name.toLowerCase())) {
       //TODO: Fehler ausgeben
       return;
@@ -202,17 +143,42 @@ function App() {
       adresse: adresse,
       telefonnummer: telefonnummer,
     };
-    setRows(rows.concat([newPerson]));
+    // fetch("https://fakestoreapi.com/products", {
+    //   method: "POST",
+    //   body: JSON.stringify({
+    //     title: "test product",
+    //     price: 13.5,
+    //     description: "lorem ipsum set",
+    //     image: "https://i.pravatar.cc",
+    //     category: "electronic",
+    //   }),
+    // })
+    //   .then((res) => res.json())
+    //   .then((json) => console.log(json));
+    await fetch("http://localhost:8082/api/person/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
 
-    const searchValue = document.getElementById("searchField").value;
+      body: JSON.stringify(newPerson),
+    })
+      .then((res) => {
+        console.log(res);
+        res.json().then((data) => {
+          console.log(data);
+          setRows(rows.concat([data]));
+          setFilteredRows(rows.concat([data]));
+        });
+      })
 
-    if (
-      searchValue === "" ||
-      newPerson.name.toLowerCase().includes(searchValue)
-    ) {
-      setFilteredRows(filteredRows.concat([newPerson]));
-      return;
-    }
+      .catch((error) => {
+        console.error("Fehler: ", error);
+      });
+
+    // ---ENDE- Neu Datesatz hinzufügen
+
+    // ----
   };
 
   // Datesätze löschen (Einfache Vers.)
@@ -229,7 +195,7 @@ function App() {
     setFilteredRows(updatedData);
   };
 
-  // Suchleiste in Appbar. Optimirt für rücksetzung von der Tabelle nach dem leeren des Eingabefeld
+  // ---- Suchleiste in Appbar. Mit rücksetzung der Anzeige von Tabelle nach dem leeren des Suchfelds
   const sucheNachBegriff = (e) => {
     const value = e.target.value.toLowerCase();
     if (value === " ") {
@@ -296,7 +262,7 @@ function App() {
               aria-describedby="alert-dialog-description"
             >
               <DialogTitle id="alert-dialog-title">
-                <div style={{ display: "flex" }}>
+                <div style={{ display: "flex", alignItems: "center" }}>
                   <Typography
                     variant="h4"
                     color="GrayText"
@@ -307,6 +273,7 @@ function App() {
                     {"Neu Eintrag hinzufügen"}
                   </Typography>
                   <IconButton
+                    style={{ width: "50px", height: "50px" }}
                     onClick={() => {
                       setOpen(false);
                     }}
