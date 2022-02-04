@@ -15,7 +15,6 @@ import "./components/table";
 import AddDataForm from "./components/addForm";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
-import Popup from "./components/popup";
 import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
@@ -29,8 +28,10 @@ import Box from "@mui/material/Box";
 import GroupIcon from "@mui/icons-material/Group";
 import Badge from "@mui/material/Badge";
 import PersonSearchIcon from "@mui/icons-material/PersonSearch";
+import Lettering from "./components/AppBarItems/Lettering";
+import Badges from "./components/AppBarItems/Badges";
 
-//* ----- UNWICHTIG -----
+//* ----- Suchleiste in AppBar -----
 const Search = styled("div")(({ theme }) => ({
   position: "relative",
   borderRadius: theme.shape.borderRadius,
@@ -45,7 +46,7 @@ const Search = styled("div")(({ theme }) => ({
     width: "30%",
   },
 }));
-
+// ----------Suchleiste Icon
 const SearchIconWrapper = styled("div")(({ theme }) => ({
   padding: theme.spacing(0, 2),
   height: "100%",
@@ -55,7 +56,7 @@ const SearchIconWrapper = styled("div")(({ theme }) => ({
   alignItems: "center",
   justifyContent: "center",
 }));
-
+// -------Suchfeld
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: "inherit",
   "& .MuiInputBase-input": {
@@ -77,21 +78,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-// -------------ENDE--------
+// -------------ENDE Slide Efect--------
 
-// Info Display Bediengung (Badge) fuktioniert auch ohne, deswegen auskommentiert
-// function notifikationslabel(count) {
-//   if (count === 0) {
-//     return "no notification";
-//   }
-//   if (count > 99) {
-//     return "more than 99 notifications";
-//   }
-//   return;
-// }
-// ---------------ENDE---------------
-//* ----- UNWICHTIG Ende -----
-
+// Funtion um die neu Daten zu Kreieren
 function createData(name, adresse, telefonnummer) {
   return {
     name,
@@ -99,13 +88,13 @@ function createData(name, adresse, telefonnummer) {
     telefonnummer,
   };
 }
-
+// Das Hauptteil...
 function App() {
   const [rows, setRows] = useState([]);
   const [filteredRows, setFilteredRows] = useState([]);
   const [filterApplied, setFilterApplied] = useState(false);
 
-  //-- Hier werden die Daten von Außen geholt
+  //-- Hier werden die Daten von Server (MongoDB) geholt
   React.useEffect(() => {
     async function getData() {
       fetch("http://localhost:8082/api/person/", {
@@ -131,7 +120,7 @@ function App() {
     console.log("2", rows);
   }, [rows]);
 
-  // ---- Neu Datesatz hinzufügen
+  // ---- Neu Datesatz in DB hinzufügen
   const addPerson = async (name, adresse, telefonnummer) => {
     if (rows.some((v) => v.name.toLowerCase() === name.toLowerCase())) {
       //TODO: Fehler ausgeben
@@ -143,18 +132,7 @@ function App() {
       adresse: adresse,
       telefonnummer: telefonnummer,
     };
-    // fetch("https://fakestoreapi.com/products", {
-    //   method: "POST",
-    //   body: JSON.stringify({
-    //     title: "test product",
-    //     price: 13.5,
-    //     description: "lorem ipsum set",
-    //     image: "https://i.pravatar.cc",
-    //     category: "electronic",
-    //   }),
-    // })
-    //   .then((res) => res.json())
-    //   .then((json) => console.log(json));
+
     await fetch("http://localhost:8082/api/person/", {
       method: "POST",
       headers: {
@@ -175,11 +153,8 @@ function App() {
       .catch((error) => {
         console.error("Fehler: ", error);
       });
-
-    // ---ENDE- Neu Datesatz hinzufügen
-
-    // ----
   };
+  // ---ENDE- Neu Datesatz hinzufügen
 
   // Datesätze löschen (Einfache Vers.)
   // const deleteItems = (items) => {
@@ -187,7 +162,7 @@ function App() {
   //   setRows(updateData);
   // };
 
-  // Datesätze löschen (Erweiterte Version)
+  // Datesätze löschen (Erweiterte Version) Löscht derzeit nur bei Client
   const deleteItems = (items) => {
     let updatedData = rows.filter((row) => !items.includes(row.name));
     setRows(updatedData);
@@ -204,6 +179,7 @@ function App() {
       return;
     }
 
+    // Gefilterte Felder
     const filteredRows = rows.filter((entry) =>
       entry.name.toLowerCase().includes(value)
     );
@@ -240,14 +216,8 @@ function App() {
               <MenuIcon />
             </IconButton>
             <PhoneIcon sx={{ mr: 4 }} />
-            <Typography
-              variant="h6"
-              noWrap
-              component="div"
-              sx={{ flexGrow: 1, display: { xs: "none", sm: "block" } }}
-            >
-              Telefonbuch
-            </Typography>
+
+            <Lettering />
             {/* ------------- POPUP/ DIALOG Fenster "NEU EINTRAG HINZUFÜGEN" -------------*/}
             {/* ---------ADD BUTTON */}
             <IconButton color="inherit" onClick={handleClickOpen}>
@@ -314,8 +284,8 @@ function App() {
             </Dialog>
             {/* ------ENDE POPUP ALLERT "NEU EINTRAG HINZUFÜGEN" in DialogFenster */}
 
-            {/*-------------------------------2x Badge als InfoDisplay am AppBar*/}
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            {/* ------------------------2x Badge als InfoDisplay am AppBar*/}
+            {/* <Box sx={{ display: { xs: "none", md: "flex" } }}>
               <IconButton
                 size="large"
                 aria-label="show 4 new mails"
@@ -331,9 +301,9 @@ function App() {
                 size="large"
                 // aria-label={notifikationslabel(100)}
                 color="inherit"
-              >
-                {/* Diese Badge zeigt null sobald die nicht gesucht wird */}
-                <Badge
+              > */}
+            {/* Diese Badge zeigt null sobald die nicht gesucht wird */}
+            {/* <Badge
                   badgeContent={filterApplied ? filteredRows.length : 0}
                   color="warning"
                   showZero
@@ -341,7 +311,12 @@ function App() {
                   <PersonSearchIcon />
                 </Badge>
               </IconButton>
-            </Box>
+            </Box> */}
+            <Badges
+              rows={rows}
+              filteredRows={filteredRows}
+              filterApplied={filterApplied}
+            />
             {/* -------------------------------Ende - Badge als InfoDisplay */}
 
             {/* Suchleiste im AppBar */}
@@ -362,9 +337,10 @@ function App() {
       </div>
 
       <InfoDisplay
+        rows={rows}
         filteredRows={filteredRows}
         filterApplied={filterApplied}
-        infoDisplay={{ test: 1 }}
+        // infoDisplay={{ test: 1 }}
       />
 
       <div>

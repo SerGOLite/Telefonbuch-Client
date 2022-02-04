@@ -165,7 +165,7 @@ const EnhancedTableToolbar = (props) => {
   const { selected, deleteItems } = props;
   const numSelected = selected.length;
 
-  console.log("selected Items", selected);
+  // console.log("selected Items", selected);
 
   return (
     <Toolbar

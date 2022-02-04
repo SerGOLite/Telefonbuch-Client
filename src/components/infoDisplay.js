@@ -3,17 +3,8 @@ import Grid from "@mui/material/Grid";
 import Paper from "@mui/material/Paper";
 import Typography from "@mui/material/Typography";
 
-export default function InfoDisplay({ filteredRows, filterApplied }) {
+export default function InfoDisplay({ filteredRows, filterApplied, rows }) {
   console.log(filteredRows);
-  //   return (
-  //     <div>
-  //       <h1>Anzahl</h1>
-  //       {/* <h2>Gesammt: {rows.length} </h2> */}
-
-  //       <h2>Suchergebniss: {filteredRows.length} </h2>
-  //     </div>
-  //   );
-  // }
 
   return (
     <Paper sx={{ p: 1.5, margin: "30px", maxWidth: 200, flexGrow: 1 }}>
@@ -27,10 +18,10 @@ export default function InfoDisplay({ filteredRows, filterApplied }) {
               </Typography>
 
               <Typography variant="body2" color="text.secondary">
-                Gesammt:
+                Gesammt: {rows.length}
               </Typography>
               <Typography variant="body2" color="text.secondary">
-                Suchergebniss: {filterApplied ? filteredRows.length : 0}
+                Suchergebnis: {filterApplied ? filteredRows.length : 0}
               </Typography>
             </Grid>
             <Grid item></Grid>
