@@ -8,14 +8,12 @@ import IconButton from "@mui/material/IconButton";
 import AppBar from "@mui/material/AppBar";
 import MenuIcon from "@mui/icons-material/Menu";
 import PhoneIcon from "@mui/icons-material/Phone";
-import { styled, alpha } from "@mui/material/styles";
-import InputBase from "@mui/material/InputBase";
-import SearchIcon from "@mui/icons-material/Search";
+
 import "./components/table";
-import AddDataForm from "./components/addForm";
+// import AddDataForm from "./components/addForm";
 import Grid from "@mui/material/Grid";
 import AddIcon from "@mui/icons-material/Add";
-import Button from "@mui/material/Button";
+
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
@@ -23,71 +21,28 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import CloseIcon from "@mui/icons-material/Close";
+
 import InfoDisplay from "./components/infoDisplay";
-import Box from "@mui/material/Box";
-import GroupIcon from "@mui/icons-material/Group";
-import Badge from "@mui/material/Badge";
-import PersonSearchIcon from "@mui/icons-material/PersonSearch";
 import Lettering from "./components/AppBarItems/Lettering";
 import Badges from "./components/AppBarItems/Badges";
+import SearchField from "./components/AppBarItems/SearchField";
+import AddIconButton from "./components/AppBarItems/AddIconButton";
+import MyMenuIcon from "./components/AppBarItems/MenuIcon";
 
-//* ----- Suchleiste in AppBar -----
-const Search = styled("div")(({ theme }) => ({
-  position: "relative",
-  borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginLeft: 0,
-  width: "100%",
-  [theme.breakpoints.up("sm")]: {
-    marginLeft: theme.spacing(2),
-    width: "30%",
-  },
-}));
-// ----------Suchleiste Icon
-const SearchIconWrapper = styled("div")(({ theme }) => ({
-  padding: theme.spacing(0, 2),
-  height: "100%",
-  position: "absolute",
-  pointerEvents: "none",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-}));
-// -------Suchfeld
-const StyledInputBase = styled(InputBase)(({ theme }) => ({
-  color: "inherit",
-  "& .MuiInputBase-input": {
-    padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
-    paddingLeft: `calc(1em + ${theme.spacing(4)})`,
-    transition: theme.transitions.create("width"),
-    width: "100%",
-    [theme.breakpoints.up("sm")]: {
-      width: "12ch",
-      "&:focus": {
-        width: "20ch",
-      },
-    },
-  },
-}));
+// // Slide Efect für PoupAllert. Muss außerhalb App Funktion sein
+// const Transition = React.forwardRef(function Transition(props, ref) {
+//   return <Slide direction="up" ref={ref} {...props} />;
+// });
+// // -------------ENDE Slide Efect--------
 
-// Slide Efect für PoupAllert. Muss außerhalb App Funktion sein
-const Transition = React.forwardRef(function Transition(props, ref) {
-  return <Slide direction="up" ref={ref} {...props} />;
-});
-// -------------ENDE Slide Efect--------
-
-// Funtion um die neu Daten zu Kreieren
-function createData(name, adresse, telefonnummer) {
-  return {
-    name,
-    adresse,
-    telefonnummer,
-  };
-}
+// Funtion um die neu Daten zu Kreieren (nicht mehr zu gebrauchen bei verb. mit Server)
+// function createData(name, adresse, telefonnummer) {
+//   return {
+//     name,
+//     adresse,
+//     telefonnummer,
+//   };
+// }
 // Das Hauptteil...
 function App() {
   const [rows, setRows] = useState([]);
@@ -120,41 +75,41 @@ function App() {
     console.log("2", rows);
   }, [rows]);
 
-  // ---- Neu Datesatz in DB hinzufügen
-  const addPerson = async (name, adresse, telefonnummer) => {
-    if (rows.some((v) => v.name.toLowerCase() === name.toLowerCase())) {
-      //TODO: Fehler ausgeben
-      return;
-    }
+  // // ---- Neu Datesatz in DB hinzufügen
+  // const addPerson = async (name, adresse, telefonnummer) => {
+  //   if (rows.some((v) => v.name.toLowerCase() === name.toLowerCase())) {
+  //     //TODO: Fehler ausgeben
+  //     return;
+  //   }
 
-    const newPerson = {
-      name: name,
-      adresse: adresse,
-      telefonnummer: telefonnummer,
-    };
+  //   const newPerson = {
+  //     name: name,
+  //     adresse: adresse,
+  //     telefonnummer: telefonnummer,
+  //   };
 
-    await fetch("http://localhost:8082/api/person/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+  //   await fetch("http://localhost:8082/api/person/", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
 
-      body: JSON.stringify(newPerson),
-    })
-      .then((res) => {
-        console.log(res);
-        res.json().then((data) => {
-          console.log(data);
-          setRows(rows.concat([data]));
-          setFilteredRows(rows.concat([data]));
-        });
-      })
+  //     body: JSON.stringify(newPerson),
+  //   })
+  //     .then((res) => {
+  //       console.log(res);
+  //       res.json().then((data) => {
+  //         console.log(data);
+  //         setRows(rows.concat([data]));
+  //         setFilteredRows(rows.concat([data]));
+  //       });
+  //     })
 
-      .catch((error) => {
-        console.error("Fehler: ", error);
-      });
-  };
-  // ---ENDE- Neu Datesatz hinzufügen
+  //     .catch((error) => {
+  //       console.error("Fehler: ", error);
+  //     });
+  // };
+  // // ---ENDE- Neu Datesatz hinzufügen
 
   // Datesätze löschen (Einfache Vers.)
   // const deleteItems = (items) => {
@@ -188,43 +143,18 @@ function App() {
     console.log(rows, filteredRows);
   };
 
-  // ----------Popup Allert (Closen nur durch Schließbutton)
-  const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  // ------------Ende Popup Allert
-
   return (
     <>
       <div className="App">
         <AppBar position="static">
           <Toolbar>
-            <IconButton
-              size="large"
-              edge="start"
-              color="inherit"
-              aria-label="open drawer"
-              sx={{ mr: 2 }}
-            >
-              <MenuIcon />
-            </IconButton>
+            <MyMenuIcon />
             <PhoneIcon sx={{ mr: 4 }} />
-
             <Lettering />
+            <AddIconButton />
+
             {/* ------------- POPUP/ DIALOG Fenster "NEU EINTRAG HINZUFÜGEN" -------------*/}
-            {/* ---------ADD BUTTON */}
-            <IconButton color="inherit" onClick={handleClickOpen}>
-              <AddIcon />
-            </IconButton>
-            {/* ---------Dialog/Popup Fenster */}
-            <Dialog
+            {/* <Dialog
               open={open}
               TransitionComponent={Transition}
               keepMounted
@@ -268,8 +198,6 @@ function App() {
               </DialogTitle>
               <DialogContent>
                 <DialogContentText id="alert-dialog-description">
-                  {/* Bitte Name, Nachnahme sowie Adresse und Telefonnummer
-                  hinzufügen. */}
                   <Grid>
                     <AddDataForm addPerson={addPerson} />
                   </Grid>
@@ -280,69 +208,24 @@ function App() {
                 <Button onClick={handleClose} autoFocus>
                   Nein
                 </Button> */}
-              </DialogActions>
-            </Dialog>
+            {/* </DialogActions>
+            </Dialog>  */}
             {/* ------ENDE POPUP ALLERT "NEU EINTRAG HINZUFÜGEN" in DialogFenster */}
 
-            {/* ------------------------2x Badge als InfoDisplay am AppBar*/}
-            {/* <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <IconButton
-                size="large"
-                aria-label="show 4 new mails"
-                color="inherit"
-              >
-                <Badge badgeContent={rows.length} color="success" showZero>
-                  <GroupIcon />
-                </Badge>
-              </IconButton>
-            </Box>
-            <Box sx={{ display: { xs: "none", md: "flex" } }}>
-              <IconButton
-                size="large"
-                // aria-label={notifikationslabel(100)}
-                color="inherit"
-              > */}
-            {/* Diese Badge zeigt null sobald die nicht gesucht wird */}
-            {/* <Badge
-                  badgeContent={filterApplied ? filteredRows.length : 0}
-                  color="warning"
-                  showZero
-                >
-                  <PersonSearchIcon />
-                </Badge>
-              </IconButton>
-            </Box> */}
             <Badges
               rows={rows}
               filteredRows={filteredRows}
               filterApplied={filterApplied}
             />
-            {/* -------------------------------Ende - Badge als InfoDisplay */}
-
-            {/* Suchleiste im AppBar */}
-            <Search>
-              <SearchIconWrapper>
-                <SearchIcon />
-              </SearchIconWrapper>
-              <StyledInputBase
-                placeholder="Suche…"
-                inputProps={{ "aria-label": "search" }}
-                onChange={sucheNachBegriff}
-                id="searchField"
-                // onChange={(e) => sucheNachBegriff(e.target.value)}
-              />
-            </Search>
+            <SearchField sucheNachBegriff={sucheNachBegriff} />
           </Toolbar>
         </AppBar>
       </div>
-
       <InfoDisplay
         rows={rows}
         filteredRows={filteredRows}
         filterApplied={filterApplied}
-        // infoDisplay={{ test: 1 }}
       />
-
       <div>
         <Table rows={filteredRows} deleteItems={deleteItems} />
       </div>
