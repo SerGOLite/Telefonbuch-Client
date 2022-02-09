@@ -19,7 +19,7 @@ import GroupIcon from "@mui/icons-material/Group";
 // ---------------ENDE Bediengung---------------
 
 export default function Badges({ rows, filteredRows, filterApplied }) {
-  console.log(rows, filterApplied, filteredRows);
+  //   console.log(rows, filterApplied, filteredRows);
   return (
     <>
       <Box sx={{ display: { xs: "none", md: "flex" } }}>
