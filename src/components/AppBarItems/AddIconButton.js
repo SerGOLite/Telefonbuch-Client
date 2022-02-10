@@ -20,87 +20,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function AddIconButton() {
-  const [rows, setRows] = useState([]);
-  const [filteredRows, setFilteredRows] = useState([]);
-  const [filterApplied, setFilterApplied] = useState(false);
-
-  //-- Hier werden die Daten von Server (MongoDB) geholt
-  //   React.useEffect(() => {
-  //     async function getData() {
-  //       fetch("http://localhost:8082/api/person/", {
-  //         //     // mode: "no-cors",
-  //         method: "GET",
-  //         //     // credentials: "include",
-  //       }).then((res) => {
-  //         console.log("1", res);
-  //         // setRows(res.json());
-  //         res.json().then((data) => {
-  //           console.log("data", data, null, 2);
-  //           setRows(data);
-  //           setFilteredRows(data);
-  //         });
-  //       });
-  //       //   // const ris = result.json();
-  //       //   // console.log(result, ris);
-  //     }
-  //     getData();
-  //   }, []);
-
-  //   React.useEffect(() => {
-  //     console.log("2", rows);
-  //   }, [rows]);
-
-  // ---- Neu Datesatz in DB hinzufügen
-  const addPerson = async (name, adresse, telefonnummer) => {
-    if (rows.some((v) => v.name.toLowerCase() === name.toLowerCase())) {
-      //TODO: Fehler ausgeben
-      return;
-    }
-
-    const newPerson = {
-      name: name,
-      adresse: adresse,
-      telefonnummer: telefonnummer,
-    };
-
-    await fetch("http://localhost:8082/api/person/", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-
-      body: JSON.stringify(newPerson),
-    })
-      .then((res) => {
-        console.log(res);
-        res.json().then((data) => {
-          console.log(data);
-          setRows(rows.concat([data]));
-          setFilteredRows(rows.concat([data]));
-        });
-      })
-
-      .catch((error) => {
-        console.error("Fehler: ", error);
-      });
-  };
-  //   ---ENDE- Neu Datesatz hinzufügen
-
-  // ----------Popup Fenster (Closen nur durch Schließbutton)
+export default function AddIconButton({ addPerson }) {
   const [open, setOpen] = React.useState(false);
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
 
   return (
     <>
-      <IconButton color="inherit" onClick={handleClickOpen}>
+      <IconButton color="inherit" onClick={() => setOpen(true)}>
         <AddIcon />
       </IconButton>
       <Dialog

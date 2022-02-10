@@ -1,15 +1,12 @@
 import { useState } from "react";
 import TextField from "@mui/material/TextField";
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import SaveIcon from "@mui/icons-material/Save";
 import AddIcCallIcon from "@mui/icons-material/AddIcCall";
 import PersonAddAlt1Icon from "@mui/icons-material/PersonAddAlt1";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import Grid from "@mui/material/Grid";
-import { styled } from "@mui/material/styles";
-import Paper from "@mui/material/Paper";
 import Divider from "@mui/material/Divider";
 
 export default function AddDataForm({ addPerson }) {
@@ -26,10 +23,6 @@ export default function AddDataForm({ addPerson }) {
     document.getElementById("telefonnummerField").value = "";
 
     addPerson(name, adresse, telefonnummer);
-  };
-
-  const handleChange = (e) => {
-    setUserInput(e.currentTarget.value);
   };
 
   return (
@@ -55,7 +48,6 @@ export default function AddDataForm({ addPerson }) {
             placeholder="Eingabe..."
             margin="normal"
             id="nameField"
-            // value=""
           />
         </Grid>
         <Grid
@@ -72,7 +64,6 @@ export default function AddDataForm({ addPerson }) {
             placeholder="Eingabe..."
             margin="normal"
             id="adresseField"
-            // value=""
           />
         </Grid>
         <Grid
