@@ -1,4 +1,3 @@
-import { useState } from "react";
 import * as React from "react";
 // import "./App.css";
 import AddDataForm from "./addForm";
@@ -32,7 +31,6 @@ export default function AddIconButton({ addPerson }) {
         open={open}
         TransitionComponent={Transition}
         keepMounted
-        // onClose={handleClose} (Close durch cklick außerhalb Fenster ist AUS)
         aria-labelledby="alert-dialog-title"
         aria-describedby="alert-dialog-description"
       >

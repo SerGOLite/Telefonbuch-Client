@@ -10,18 +10,12 @@ import Grid from "@mui/material/Grid";
 import Divider from "@mui/material/Divider";
 
 export default function AddDataForm({ addPerson }) {
-  const [userInput, setUserInput] = useState("");
   const [name, setName] = useState("");
   const [adresse, setAdresse] = useState("");
   const [telefonnummer, setTelefonnummer] = useState("");
 
   const handleSubmit = (e) => {
     e.preventDefault(); //TODO: Nachlesen, wofür hier? Um das leeres Eintrag zu verhindern Analog zu false in HTML????
-    console.log("handleSubmit", userInput, name, adresse, telefonnummer);
-    document.getElementById("nameField").value = "";
-    document.getElementById("adresseField").value = "";
-    document.getElementById("telefonnummerField").value = "";
-
     addPerson(name, adresse, telefonnummer);
   };
 
