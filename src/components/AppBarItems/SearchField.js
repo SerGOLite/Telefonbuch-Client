@@ -45,7 +45,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   },
 }));
 
-export default function SearchField({ sucheNachBegriff }) {
+export default function SearchField({ setSuchbegriff }) {
   return (
     <Search>
       <SearchIconWrapper>
@@ -54,9 +54,8 @@ export default function SearchField({ sucheNachBegriff }) {
       <StyledInputBase
         placeholder="Suche…"
         inputProps={{ "aria-label": "search" }}
-        onChange={sucheNachBegriff}
         id="searchField"
-        // onChange={(e) => sucheNachBegriff(e.target.value)}
+        onChange={(e) => setSuchbegriff(e.target.value)}
       />
     </Search>
   );
